@@ -16,6 +16,7 @@ import de.sist.gitlab.pipelinemonitor.HostAndProjectPath;
 import de.sist.gitlab.pipelinemonitor.Jackson;
 import de.sist.gitlab.pipelinemonitor.PipelineJobStatus;
 import de.sist.gitlab.pipelinemonitor.PipelineTo;
+import de.sist.gitlab.pipelinemonitor.JobsTo;
 import de.sist.gitlab.pipelinemonitor.config.ConfigProvider;
 import de.sist.gitlab.pipelinemonitor.config.Mapping;
 import de.sist.gitlab.pipelinemonitor.config.PipelineViewerConfigApp;
@@ -94,7 +95,10 @@ public class GitlabService implements Disposable {
         final Map<Mapping, List<PipelineJobStatus>> newMappingToPipelines = new HashMap<>();
         for (Map.Entry<Mapping, List<PipelineTo>> entry : loadPipelines(triggeredByUser).entrySet()) {
             final List<PipelineJobStatus> jobStatuses = entry.getValue().stream()
-                    .map(pipeline -> new PipelineJobStatus(pipeline.getId(), pipeline.getRef(), entry.getKey().getGitlabProjectId(), pipeline.getCreatedAt(), pipeline.getUpdatedAt(), pipeline.getStatus(), pipeline.getWebUrl(), pipeline.getSource()))
+                    .map(pipeline -> new PipelineJobStatus(pipeline.getId(), pipeline.getRef(),
+                            entry.getKey().getGitlabProjectId(), pipeline.getCreatedAt(),
+                            pipeline.getUpdatedAt(), pipeline.getStatus(),
+                            pipeline.getWebUrl(), pipeline.getSource(), pipeline.getJobs()))
                     .sorted(Comparator.comparing(PipelineJobStatus::getUpdateTime, Comparator.nullsFirst(Comparator.naturalOrder())).reversed())
                     .collect(Collectors.toList());
 
@@ -315,6 +319,11 @@ public class GitlabService implements Disposable {
             //Note: Gitlab GraphQL does not return the ref (branch name): https://gitlab.com/gitlab-org/gitlab/-/issues/230405
             pipelines.addAll(makePipelinesUrlCall(1, mapping));
             pipelines.addAll(makePipelinesUrlCall(2, mapping));
+            for (int i = 0; i < pipelines.size(); i++) {
+                List<JobsTo> jobs = makePipelineJobsUrlCall(pipelines.get(i).getId(), mapping);
+                pipelines.get(i).setJobs(jobs);
+                logger.debug("Found jobs for pipeline " + pipelines.get(i).getId() + " - " + jobs.toString());
+            }
         } catch (FailsafeException | LoginException e) {
             if (e instanceof FailsafeException && e.getCause() instanceof IOException) {
                 throw (IOException) e.getCause();
@@ -366,6 +375,20 @@ public class GitlabService implements Disposable {
                     .addParameter("per_page", "100");
 
 
+            url = uriBuilder.build().toString();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        final String json = Failsafe.with(RETRY_POLICY).get(() -> makeApiCall(url, ConfigProvider.getToken(mapping)));
+        return Jackson.OBJECT_MAPPER.readValue(json, new TypeReference<>() {
+        });
+    }
+
+    private List<JobsTo> makePipelineJobsUrlCall(int pipelineId, Mapping mapping) throws IOException, LoginException {
+        String url;
+        try {
+            URIBuilder uriBuilder = new URIBuilder(mapping.getHost() + "/api/v4/projects/" + mapping.getGitlabProjectId() + "/pipelines/" + pipelineId + "/jobs");
             url = uriBuilder.build().toString();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);

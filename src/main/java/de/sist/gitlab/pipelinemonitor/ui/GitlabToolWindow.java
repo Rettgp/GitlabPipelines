@@ -541,17 +541,20 @@ public class GitlabToolWindow {
             Map<String, List<PipelineJobStatus>> branchesToStatuses = statuses.stream().collect(Collectors.groupingBy(PipelineJobStatus::getBranchNameDisplay));
             logger.debug("Found ", branchesToStatuses.size(), " branches to show pipelines for");
             for (Map.Entry<String, List<PipelineJobStatus>> entry : branchesToStatuses.entrySet()) {
-                Optional<PipelineJobStatus> firstFinalStatus = entry.getValue().stream().filter(this::isFinalStatus).findFirst();
-                if (firstFinalStatus.isPresent()) {
-                    int indexOfLatestFinalStatus = entry.getValue().indexOf(firstFinalStatus.get());
-                    final List<PipelineJobStatus> allUpToLatestFinalStatus = entry.getValue().subList(0, indexOfLatestFinalStatus + 1);
-                    logger.debug("Found ", allUpToLatestFinalStatus.size(), " pipelines for branch ", entry.getKey(), " including latest with final status: ", allUpToLatestFinalStatus.get(indexOfLatestFinalStatus));
-                    newRows.addAll(allUpToLatestFinalStatus);
-                } else {
-                    final PipelineJobStatus status = entry.getValue().get(0);
-                    logger.debug("Found one entry for branch ", entry.getKey(), ": ", status);
-                    newRows.add(status);
-                }
+                logger.debug("Display Job Statuses: ", entry.getValue());
+                newRows.addAll(entry.getValue());
+                // Unnecessary?
+//                Optional<PipelineJobStatus> firstFinalStatus = entry.getValue().stream().filter(this::isFinalStatus).findFirst();
+//                if (firstFinalStatus.isPresent()) {
+//                    int indexOfLatestFinalStatus = entry.getValue().indexOf(firstFinalStatus.get());
+//                    final List<PipelineJobStatus> allUpToLatestFinalStatus = entry.getValue().subList(0, indexOfLatestFinalStatus + 1);
+//                    logger.debug("Found ", allUpToLatestFinalStatus.size(), " pipelines for branch ", entry.getKey(), " including latest with final status: ", allUpToLatestFinalStatus.get(indexOfLatestFinalStatus));
+//                    newRows.addAll(allUpToLatestFinalStatus);
+//                } else {
+//                    final PipelineJobStatus status = entry.getValue().get(0);
+//                    logger.debug("Found one entry for branch ", entry.getKey(), ": ", status);
+//                    newRows.add(status);
+//                }
             }
         }
         newRows.sort(Comparator.comparing(x -> ((PipelineJobStatus) x).creationTime).reversed());

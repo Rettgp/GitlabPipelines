@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.ZonedDateTime;
 import java.util.StringJoiner;
+import java.util.List;
 
 @SuppressWarnings("unused")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -29,6 +30,7 @@ public class PipelineTo {
     private String source;
 
     private String statusGroup;
+    private List<JobsTo> jobs;
 
     @JsonProperty("id")
     public Integer getId() {
@@ -105,10 +107,12 @@ public class PipelineTo {
     public String getSource() {
         return source;
     }
-
     public void setSource(String source) {
         this.source = source;
     }
+
+    public List<JobsTo> getJobs() { return jobs; }
+    public void setJobs(List<JobsTo> jobs) { this.jobs = jobs; }
 
     @Override
     public String toString() {

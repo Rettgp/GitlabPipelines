@@ -4,6 +4,8 @@ import com.google.common.base.Objects;
 
 import java.time.ZonedDateTime;
 import java.util.StringJoiner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PipelineJobStatus {
 
@@ -18,8 +20,12 @@ public class PipelineJobStatus {
     public String mergeRequestLink;
     public final String source;
     private String branchNameDisplay;
+    private List<JobStatus> jobs;
 
-    public PipelineJobStatus(Integer id, String ref, String projectId, ZonedDateTime creationTime, ZonedDateTime updatedAt, String result, String webUrl, String source) {
+    public PipelineJobStatus(Integer id, String ref, String projectId,
+                             ZonedDateTime creationTime, ZonedDateTime updatedAt,
+                             String result, String webUrl, String source,
+                             List<JobsTo> jobs) {
         this.id = id;
         this.branchName = ref;
         this.projectId = projectId;
@@ -28,6 +34,11 @@ public class PipelineJobStatus {
         this.updateTime = updatedAt;
         this.result = result;
         this.source = source;
+        for (int i = jobs.size() - 1; i >= 0; i--) {
+            JobsTo jobTo= jobs.get(i);
+            this.jobs = new ArrayList<JobStatus>();
+            this.jobs.add(new JobStatus(jobTo.getId(), jobTo.getStatus(), jobTo.getStage(), jobTo.getName()));
+        }
     }
 
     @Override

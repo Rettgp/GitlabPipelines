@@ -4,10 +4,12 @@ package de.sist.gitlab.pipelinemonitor.debug;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import de.sist.gitlab.pipelinemonitor.PipelineJobStatus;
+import de.sist.gitlab.pipelinemonitor.JobsTo;
 import de.sist.gitlab.pipelinemonitor.notifier.NotifierService;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 
 /**
  * @author PPI AG
@@ -15,7 +17,10 @@ import java.time.ZonedDateTime;
 public class ShowTestNotificationAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        e.getProject().getService(NotifierService.class).showBalloonForStatus(new PipelineJobStatus(1, "123", "123", ZonedDateTime.now(), ZonedDateTime.now(), "failed", "http://www.google.de", "source"), 0);
+        e.getProject().getService(NotifierService.class).showBalloonForStatus(
+                new PipelineJobStatus(1, "123", "123",
+                        ZonedDateTime.now(), ZonedDateTime.now(),
+                        "failed", "http://www.google.de", "source", new ArrayList<JobsTo>()), 0);
     }
 
     @Override
