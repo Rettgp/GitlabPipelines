@@ -1,4 +1,6 @@
-# Gitlab Pipeline Viewer
+# Gitlab Pipeline
+
+Cloned and modified from: [Gitlab Pipeline Viewer](https://gitlab.com/ppiag/intellij_gitlab_pipeline_monitor.git)
 
 <!-- Plugin description -->
 **Gitlab Pipeline Viewer** allows you you track gitlab build pipelines for your projects directly from inside IntelliJ and other Jetbrains products.
