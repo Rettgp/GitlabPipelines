@@ -25,6 +25,12 @@ public class JobStatus {
             this.iconPath = "toolWindow/success.png";
         } else if (this.status.equals("running")) {
             this.iconPath = "toolWindow/running.png";
+        } else if (this.status.equals("canceled")) {
+            this.iconPath = "toolWindow/canceled.png";
+        } else if (this.status.equals("created")) {
+            this.iconPath = "toolWindow/created.png";
+        } else if (this.status.equals("pending")) {
+            this.iconPath = "toolWindow/pending.png";
         }
     }
 

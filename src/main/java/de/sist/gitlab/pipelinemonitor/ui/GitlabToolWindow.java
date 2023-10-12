@@ -34,6 +34,7 @@ import de.sist.gitlab.pipelinemonitor.BackgroundUpdateService;
 import de.sist.gitlab.pipelinemonitor.DateTime;
 import de.sist.gitlab.pipelinemonitor.PipelineFilter;
 import de.sist.gitlab.pipelinemonitor.PipelineJobStatus;
+import de.sist.gitlab.pipelinemonitor.JobStatus;
 import de.sist.gitlab.pipelinemonitor.ReloadListener;
 import de.sist.gitlab.pipelinemonitor.UrlOpener;
 import de.sist.gitlab.pipelinemonitor.config.ConfigChangedListener;
@@ -503,7 +504,7 @@ public class GitlabToolWindow {
             column.setWidth(0);
         } else {
             column.setMinWidth(15);
-            column.setMaxWidth(200);
+            column.setMaxWidth(500);
             column.setPreferredWidth(75);
             column.setWidth(75);
         }
@@ -731,30 +732,26 @@ public class GitlabToolWindow {
         return new TableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                String status = (String) value;
-                JBLabel label = new JBLabel(status);
-                switch (status) {
-                    case "running":
-                        label.setForeground(JBColor.ORANGE);
-                        break;
-                    case "pending":
-                        label.setForeground(JBColor.GRAY);
-                        break;
-                    case "success":
-                        label.setForeground(JBColor.GREEN);
-                        break;
-                    case "success (warnings)":
-                        label.setForeground(new JBColor(new Color(195, 199, 22), new Color(195, 199, 22)));
-                        break;
-                    case "failed":
-                        label.setForeground(JBColor.RED);
-                        break;
-                    case "skipped":
-                    case "canceled":
-                        label.setForeground(JBColor.BLUE);
-                        break;
+                JPanel jobsPanel = new JPanel();
+                BoxLayout boxLayout = new BoxLayout(jobsPanel, BoxLayout.X_AXIS);
+                jobsPanel.setLayout(boxLayout);
+                List<JobStatus> jobs = (List<JobStatus>)value;
+                for (int i = 0; i < jobs.size(); i++) {
+                    JBLabel label = new JBLabel(IconLoader.getIcon(jobs.get(i).iconPath, GitlabToolWindow.class));
+                    label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                    label.setAlignmentY(Component.CENTER_ALIGNMENT);
+                    label.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    jobsPanel.add(label);
+                    if (jobs.size() > 1 && i < jobs.size() - 1){
+                        JBLabel divider = new JBLabel(IconLoader.getIcon("toolWindow/divider.png", GitlabToolWindow.class));
+                        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                        divider.setAlignmentY(Component.CENTER_ALIGNMENT);
+                        divider.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        jobsPanel.add(divider);
+                    }
                 }
-                return label;
+
+                return jobsPanel;
             }
         };
     }
@@ -765,11 +762,8 @@ public class GitlabToolWindow {
         public List<TableRowDefinition> definitions = Arrays.asList(
                 new TableRowDefinition("Project", x -> x.projectId),
                 new TableRowDefinition("Branch", PipelineJobStatus::getBranchNameDisplay),
-                new TableRowDefinition("Result", x -> {
-                    String result = x.result;
-                    if (x.statusGroup != null && x.statusGroup.contains("warnings")) {
-                        result += " (warnings)";
-                    }
+                new TableRowDefinition("Status", x -> {
+                    List<JobStatus> result = x.getJobs();
                     return result;
                 }),
                 new TableRowDefinition("Time", x -> x.creationTime),

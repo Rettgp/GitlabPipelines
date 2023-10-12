@@ -1,6 +1,7 @@
 package de.sist.gitlab.pipelinemonitor;
 
 import com.google.common.base.Objects;
+import kotlinx.coroutines.Job;
 
 import java.time.ZonedDateTime;
 import java.util.StringJoiner;
@@ -115,6 +116,8 @@ public class PipelineJobStatus {
     public void setStatusGroup(String statusGroup) {
         this.statusGroup = statusGroup;
     }
+
+    public List<JobStatus> getJobs() { return this.jobs; }
 
     @Override
     public int hashCode() {
