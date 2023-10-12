@@ -9,7 +9,6 @@ test-job1:
   stage: test
   script:
     - echo "This job tests something"
-    - exit 1
 
 test-job2:
   stage: test
@@ -18,3 +17,4 @@ test-job2:
     - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
     - echo "which simulates a test that runs 20 seconds longer than test-job1"
     - sleep 20
+    - exit 1
