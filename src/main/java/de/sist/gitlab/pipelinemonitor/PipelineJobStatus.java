@@ -34,9 +34,9 @@ public class PipelineJobStatus {
         this.updateTime = updatedAt;
         this.result = result;
         this.source = source;
+        this.jobs = new ArrayList<JobStatus>();
         for (int i = jobs.size() - 1; i >= 0; i--) {
-            JobsTo jobTo= jobs.get(i);
-            this.jobs = new ArrayList<JobStatus>();
+            JobsTo jobTo = jobs.get(i);
             this.jobs.add(new JobStatus(jobTo.getId(), jobTo.getStatus(), jobTo.getStage(), jobTo.getName()));
         }
     }
