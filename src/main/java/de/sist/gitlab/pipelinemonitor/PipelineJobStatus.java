@@ -123,13 +123,15 @@ public class PipelineJobStatus {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", PipelineJobStatus.class.getSimpleName() + "[", "]")
-                .add("branchName='" + branchName + "'")
-                .add("time=" + creationTime)
-                .add("result='" + result + "'")
-                .add("pipelineLink='" + pipelineLink + "'")
-                .add("mergeRequestLink='" + mergeRequestLink + "'")
-                .add("source='" + source + "'")
+        return new StringJoiner("\n", PipelineJobStatus.class.getSimpleName() + "[", "]")
+                .add("  branchName='" + branchName + "'")
+                .add("  time=" + creationTime)
+                .add("  result='" + result + "'")
+                .add("  pipelineLink='" + pipelineLink + "'")
+                .add("  mergeRequestLink='" + mergeRequestLink + "'")
+                .add("  source='" + source + "'")
+                .add("  jobs='" + jobs + "'")
+                .add("\n")
                 .toString();
     }
 }
