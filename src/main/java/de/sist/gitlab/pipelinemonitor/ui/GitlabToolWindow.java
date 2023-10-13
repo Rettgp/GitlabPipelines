@@ -60,12 +60,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.BadLocationException;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -732,12 +727,29 @@ public class GitlabToolWindow {
         return new TableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JPanel jobsPanel = new JPanel();
+                JPanel jobsPanel = new JPanel() {
+                    @Override
+                    public String getToolTipText(MouseEvent event) {
+                        int offset = 5 + 10 + 5;
+                        Component[] components = super.getComponents();
+                        for(int i = 0; i < components.length; i+=2 ) {
+                            int stageIndex = (int)Math.floor(i / 2);
+                            int startX = stageIndex * (32 + offset) + 5;
+                            int endX = startX + 32;
+                            if (event.getX() >= startX && event.getX() <= endX) {
+                                JBLabel label = (JBLabel)components[i];
+                                return label.getToolTipText();
+                            }
+                        }
+                        return super.getToolTipText(event);
+                    }
+                };
                 BoxLayout boxLayout = new BoxLayout(jobsPanel, BoxLayout.X_AXIS);
                 jobsPanel.setLayout(boxLayout);
                 List<JobStatus> jobs = (List<JobStatus>)value;
                 for (int i = 0; i < jobs.size(); i++) {
                     JBLabel label = new JBLabel(IconLoader.getIcon(jobs.get(i).iconPath, GitlabToolWindow.class));
+                    label.setToolTipText(jobs.get(i).stage + ": " + jobs.get(i).status);
                     label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     label.setAlignmentY(Component.CENTER_ALIGNMENT);
                     label.setAlignmentX(Component.CENTER_ALIGNMENT);

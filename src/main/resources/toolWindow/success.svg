@@ -15,7 +15,10 @@
    version="1.1"
    id="svg6824"
    inkscape:version="0.92.1 r15371"
-   sodipodi:docname="success.svg">
+   sodipodi:docname="success.svg"
+   inkscape:export-filename="E:\Projects\gitlab_pipelines\src\main\resources\toolWindow\success.png"
+   inkscape:export-xdpi="149.33134"
+   inkscape:export-ydpi="149.33134">
   <defs
      id="defs6818" />
   <sodipodi:namedview
@@ -32,8 +35,8 @@
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="2560"
-     inkscape:window-height="1417"
-     inkscape:window-x="2552"
+     inkscape:window-height="1387"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      fit-margin-top="0"
