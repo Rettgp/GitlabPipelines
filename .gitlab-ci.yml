@@ -3,4 +3,4 @@ image: gradle:7.0
 build-plugin:
   stage: build
   script:
-    - gradle buildPlugin
+    - gradle jar
