@@ -3,9 +3,8 @@ image: gradle:8.4
 build:
   stage: build
   script:
-    - gradle buildEnvironment
-    - gradle init
-    - gradle build
+    - ./gradlew buildEnvironment
+    - ./gradlew build
 
 deploy-jar::
   stage: deploy
