@@ -5,7 +5,7 @@ build:
   script:
     - gradle init
 
- build-deploy-jar:
+build-deploy-jar:
   stage: deploy
   script:
     - gradle init
