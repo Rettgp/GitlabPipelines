@@ -32,6 +32,8 @@ public class JobStatus {
             this.iconPath = "toolWindow/created.png";
         } else if (this.status.equals("pending")) {
             this.iconPath = "toolWindow/pending.png";
+        } else if (this.status.equals("skipped")) {
+            this.iconPath = "toolWindow/skipped.png";
         }
     }
 
