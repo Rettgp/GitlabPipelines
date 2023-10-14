@@ -9,7 +9,13 @@ plugins {
     id("org.jetbrains.intellij") version "1.16.0"
     id("org.jetbrains.changelog") version "2.2.0"
     id("idea")
-    id("java")
+    id("java-library")
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 group = properties("pluginGroup")
@@ -29,8 +35,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
-    implementation("dev.failsafe:failsafe:3.3.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+    implementation("dev.failsafe:failsafe:3.3.2")
 }
 
 
@@ -43,7 +49,7 @@ intellij {
 
     plugins.set(
         listOf(
-            "git4idea"
+            "Git4Idea"
         )
     )
 }

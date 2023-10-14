@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.rett.gitlab.pipelines</id>
     <name>GitLab Pipelines</name>
-    <vendor email="garrphelps@gmail.com">Garret Phelps</vendor>
+    <vendor email="garrphelps@gmail.com">Garrett Phelps</vendor>
 
     <description><![CDATA[
     Monitor your GitLab CI pipelines in IntelliJ<br/>
@@ -42,20 +42,20 @@
         <projectService serviceImplementation="org.rett.gitlab.pipelines.BackgroundUpdateService"/>
         <postStartupActivity implementation="org.rett.gitlab.pipelines.StartupInitialization"/>
         <postStartupActivity implementation="org.rett.gitlab.pipelines.update.AfterUpdateNotifier"/>
-        <notificationGroup displayType="TOOL_WINDOW" id="org.rett.gitlab.pipelines.pipelinemonitor.unmappedRemote" key="org.rett.gitlab.pipelines.pipelinemonitor.unmappedRemote" bundle="gitlabBranchViewer"/>
-        <notificationGroup displayType="STICKY_BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.disabledCi" key="org.rett.gitlab.pipelines.pipelinemonitor.disabledCi" bundle="gitlabBranchViewer"/>
-        <notificationGroup displayType="STICKY_BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.genericNotificationGroup" key="org.rett.gitlab.pipelines.pipelinemonitor.error" bundle="gitlabBranchViewer"/>
-        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.pending" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.pending" bundle="gitlabBranchViewer"
+        <notificationGroup displayType="TOOL_WINDOW" id="org.rett.gitlab.pipelines.unmappedRemote" key="org.rett.gitlab.pipelines.unmappedRemote" bundle="gitlabBranchViewer"/>
+        <notificationGroup displayType="STICKY_BALLOON" id="org.rett.gitlab.pipelines.disabledCi" key="org.rett.gitlab.pipelines.disabledCi" bundle="gitlabBranchViewer"/>
+        <notificationGroup displayType="STICKY_BALLOON" id="org.rett.gitlab.pipelines.genericNotificationGroup" key="org.rett.gitlab.pipelines.error" bundle="gitlabBranchViewer"/>
+        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelineStatus.pending" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelineStatus.pending" bundle="gitlabBranchViewer"
                            isLogByDefault="false"/>
-        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.running" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.running" bundle="gitlabBranchViewer"
+        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelineStatus.running" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelineStatus.running" bundle="gitlabBranchViewer"
                            isLogByDefault="false"/>
-        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.canceled" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.canceled" bundle="gitlabBranchViewer"
+        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelineStatus.canceled" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelineStatus.canceled" bundle="gitlabBranchViewer"
                            isLogByDefault="false"/>
-        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.failed" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.failed" bundle="gitlabBranchViewer"/>
-        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.success" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.success" bundle="gitlabBranchViewer"/>
-        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.skipped" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.skipped" bundle="gitlabBranchViewer"
+        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelineStatus.failed" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelineStatus.failed" bundle="gitlabBranchViewer"/>
+        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelineStatus.success" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelineStatus.success" bundle="gitlabBranchViewer"/>
+        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelineStatus.skipped" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelineStatus.skipped" bundle="gitlabBranchViewer"
                            isLogByDefault="false"/>
-        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.other" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelinemonitor.pipelineStatus.other" bundle="gitlabBranchViewer"
+        <notificationGroup displayType="BALLOON" id="org.rett.gitlab.pipelines.pipelineStatus.other" icon="/toolWindow/gitlab-icon.png" key="org.rett.gitlab.pipelines.pipelineStatus.other" bundle="gitlabBranchViewer"
                            isLogByDefault="false"/>
     </extensions>
 
