@@ -2,9 +2,9 @@ package de.sist.gitlab;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import de.sist.gitlab.pipelinemonitor.Jackson;
-import de.sist.gitlab.pipelinemonitor.PipelineTo;
-import de.sist.gitlab.pipelinemonitor.gitlab.mapping.Data;
+import org.rett.gitlab.pipelines.Jackson;
+import org.rett.gitlab.pipelines.PipelineTo;
+import org.rett.gitlab.pipelines.gitlab.mapping.Data;
 import org.junit.Test;
 
 import java.util.List;
