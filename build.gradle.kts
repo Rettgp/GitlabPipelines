@@ -49,6 +49,7 @@ intellij {
 }
 
 changelog {
+    path.set(file("CHANGELOG.md").canonicalPath)
     header.set(provider { "[${version.get()}] - ${date()}" })
     headerParserRegex.set("""(\d+\.\d+.\d+)""".toRegex())
     version.set(properties("pluginVersion"))
@@ -92,7 +93,6 @@ tasks {
             }.joinToString("\n").run { markdownToHTML(this) }
         )
 
-        version.set(properties("pluginVersion"))
         changeNotes.set(provider {
             changelog.renderItem(
                 changelog
