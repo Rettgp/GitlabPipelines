@@ -4,12 +4,17 @@ build:
   stage: build
   script:
     - gradle init
+    - gradble build
 
-build-deploy-jar:
+deploy-jar::
   stage: deploy
+  needs:
+    - build
+  rules:
+    - if: '$CI_COMMIT_TAG'
+      when: on_success
+    - when: never
+    - when: manual
   script:
-    - gradle init
-    - gradle jar
-  artifacts:
-    paths:
-      - build/libs/gitlab-pipelines*
+    - echo "deploy"
+
