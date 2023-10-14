@@ -737,7 +737,7 @@ public class GitlabToolWindow {
                 List<JobStatus> jobs = (List<JobStatus>)value;
                 for (int i = 0; i < jobs.size(); i++) {
                     JBLabel label = new JBLabel(IconLoader.getIcon(jobs.get(i).iconPath, GitlabToolWindow.class));
-                    label.setToolTipText(jobs.get(i).stage + ": " + jobs.get(i).status);
+                    label.setToolTipText(jobs.get(i).name + ": " + jobs.get(i).status);
                     label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     label.setAlignmentY(Component.CENTER_ALIGNMENT);
                     label.setAlignmentX(Component.CENTER_ALIGNMENT);

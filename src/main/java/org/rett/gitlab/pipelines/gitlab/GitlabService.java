@@ -318,7 +318,6 @@ public class GitlabService implements Disposable {
             }
             //Note: Gitlab GraphQL does not return the ref (branch name): https://gitlab.com/gitlab-org/gitlab/-/issues/230405
             pipelines.addAll(makePipelinesUrlCall(1, mapping));
-            pipelines.addAll(makePipelinesUrlCall(2, mapping));
             for (int i = 0; i < pipelines.size(); i++) {
                 List<JobsTo> jobs = makePipelineJobsUrlCall(pipelines.get(i).getId(), mapping);
                 pipelines.get(i).setJobs(jobs);
@@ -372,7 +371,7 @@ public class GitlabService implements Disposable {
             URIBuilder uriBuilder = new URIBuilder(mapping.getHost() + "/api/v4/projects/" + mapping.getGitlabProjectId() + "/pipelines");
 
             uriBuilder.addParameter("page", String.valueOf(page))
-                    .addParameter("per_page", "100");
+                    .addParameter("per_page", "25");
 
 
             url = uriBuilder.build().toString();
