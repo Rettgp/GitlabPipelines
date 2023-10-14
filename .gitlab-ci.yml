@@ -15,5 +15,9 @@ deploy-jar::
     - when: never
     - when: manual
   script:
-    - echo "deploy"
+    - gradle buildPlugin
+  artifacts:
+    paths:
+      - build/libs/gitlab-pipelines*
+
 
