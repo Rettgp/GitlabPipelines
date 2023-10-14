@@ -7,7 +7,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("org.jetbrains.intellij") version "1.16.0"
-    id("org.jetbrains.changelog") version "2.0.0"
+    id("org.jetbrains.changelog") version "2.2.0"
     id("idea")
     id("java")
 }
@@ -58,7 +58,7 @@ changelog {
     unreleasedTerm.set("[Unreleased]")
     lineSeparator.set("\n")
     combinePreReleases.set(true)
-    sectionUrlBuilder.set(ChangelogSectionUrlBuilder { repositoryUrl, currentVersion, previousVersion, isUnreleased -> "foo" })
+    sectionUrlBuilder.set(ChangelogSectionUrlBuilder { _, _, _, _ -> "foo" })
 }
 
 tasks {
