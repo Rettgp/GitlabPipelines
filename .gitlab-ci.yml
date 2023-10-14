@@ -3,4 +3,13 @@ image: gradle:7.0
 build-plugin:
   stage: build
   script:
-    - exit 0
+    - gradle init
+
+ build-deploy-jar:
+  stage: deploy
+  script:
+    - gradle init
+    - gradle jar
+  artifacts:
+    paths:
+      - build/libs/gitlab-pipelines*
