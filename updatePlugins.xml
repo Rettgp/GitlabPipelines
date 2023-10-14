@@ -17,18 +17,12 @@ available at this repository.
     <plugin
             id="org.rett.gitlab.pipelines"
             url="https://mycompany.example.com/my_repo/my_plugin.jar"
-            version="major.minor.update">
+            version="1.0.0">
         <!--
         The <idea-version> element (required) must match the same element
         in the plugin.xml file.
         -->
-        <idea-version since-build="181.3" until-build="191.*"/>
-    </plugin>
-    <plugin
-            id="id.of.different.plugin"
-            url="https://othercompany.example.com/other_repo/other_plugin.jar"
-            version="major.minor">
-        <idea-version since-build="181.3" until-build="191.*"/>
+        <idea-version since-build="203.4203.26" until-build="231*"/>
     </plugin>
     <!-- And so on for other plugins... -->
 </plugins>
