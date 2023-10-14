@@ -3,6 +3,7 @@ image: gradle:7.0
 build:
   stage: build
   script:
+    - gradle buildEnvironment
     - gradle init
     - gradble build
 
