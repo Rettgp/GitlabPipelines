@@ -1,6 +1,6 @@
 image: gradle:7.0
 
-build-plugin:
+build:
   stage: build
   script:
     - gradle init
