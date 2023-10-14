@@ -62,7 +62,7 @@ public class NotifierService {
         this.project = project;
         statusFilter = project.getService(PipelineFilter.class);
 
-        errorNotificationGroup = NotificationGroupManager.getInstance().getNotificationGroup("de.sist.gitlab.pipelinemonitor.genericNotificationGroup");
+        errorNotificationGroup = NotificationGroupManager.getInstance().getNotificationGroup("org.rett.gitlab.pipelines.genericNotificationGroup");
 
         project.getMessageBus().connect().subscribe(ReloadListener.RELOAD, this::showStatusNotifications);
         gitService = project.getService(GitService.class);
@@ -160,9 +160,9 @@ public class NotifierService {
 
     private NotificationGroup getNotificationGroupForStatus(PipelineJobStatus status) {
         if (KNOWN_STATUSES.contains(status.getResult())) {
-            return NotificationGroupManager.getInstance().getNotificationGroup("de.sist.gitlab.pipelinemonitor.pipelineStatus." + status.result);
+            return NotificationGroupManager.getInstance().getNotificationGroup("org.rett.gitlab.pipelines.pipelineStatus." + status.result);
         }
-        return NotificationGroupManager.getInstance().getNotificationGroup("de.sist.gitlab.pipelinemonitor.pipelineStatus.other");
+        return NotificationGroupManager.getInstance().getNotificationGroup("org.rett.gitlab.pipelines.pipelineStatus.other");
     }
 
     private void showBalloon(Notification notification, NotificationDisplayType displayType, int index) {

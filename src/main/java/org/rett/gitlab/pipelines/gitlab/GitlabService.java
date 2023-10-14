@@ -252,7 +252,7 @@ public class GitlabService implements Disposable {
             logger.info("CI is enabled for " + url);
             return false;
         }
-        final NotificationGroup notificationGroup = NotificationGroupManager.getInstance().getNotificationGroup("de.sist.gitlab.pipelinemonitor.disabledCi");
+        final NotificationGroup notificationGroup = NotificationGroupManager.getInstance().getNotificationGroup("org.rett.gitlab.pipelines.disabledCi");
         notificationGroup.createNotification("Gitlab Pipeline Viewer - CI disabled", "Gitlab CI is disabled for " + url + ". Ignoring it.", NotificationType.INFORMATION, null).notify(project);
         ConfigProvider.getInstance().getIgnoredRemotes().add(url);
         logger.info("Added " + url + " to list of ignored remotes because CI is disabled for its gitlab project");

@@ -70,7 +70,7 @@ public class UntrackedRemoteNotification extends Notification {
 
     @NotNull
     private static String getNotificationGroupId() {
-        return NotificationGroupManager.getInstance().getNotificationGroup("de.sist.gitlab.pipelinemonitor.unmappedRemote").getDisplayId();
+        return NotificationGroupManager.getInstance().getNotificationGroup("org.rett.gitlab.pipelines.unmappedRemote").getDisplayId();
     }
 
     public static List<UntrackedRemoteNotification> getAlreadyOpenNotifications(Project project) {

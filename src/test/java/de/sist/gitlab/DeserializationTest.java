@@ -1,4 +1,4 @@
-package de.sist.gitlab;
+package org.rett.gitlab.pipelines;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;

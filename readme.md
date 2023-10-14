@@ -32,6 +32,6 @@ Appearance & Behavior | System Settings | Passwords</a>
 Unfortunately gitlab returns an empty response if access to a private project was not possible due to an auth error. Therefore the plugin can't tell if the gitlab host is wrong, the project path is wrong or an invalid access token was used.
 Make sure the values entered are correct. You can check and edit them at any time in the settings.
 
-You can enable debug logging by opening Help -> Diagnostic Tools -> Debug Log Settings and adding the value `#de.sist`.
+You can enable debug logging by opening Help -> Diagnostic Tools -> Debug Log Settings and adding the value `#org.rett`.
 
 The log can then be found using Help -> Show Log in Explorer.

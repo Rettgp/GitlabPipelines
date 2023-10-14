@@ -1,4 +1,4 @@
-package de.sist.gitlab.pipelinemonitor.lights;
+package org.rett.gitlab.pipelines.lights;
 
 import org.junit.Test;
 

@@ -114,7 +114,7 @@ tasks {
     }
 
     runIde {
-        jvmArgs("-Xmx4G", "-Didea.log.debug.categories=#de.sist", "-DgitlabPipelineViewerDebugging=true")
+        jvmArgs("-Xmx4G", "-Didea.log.debug.categories=#org.rett", "-DgitlabPipelineViewerDebugging=true")
     }
 
     buildSearchableOptions {
