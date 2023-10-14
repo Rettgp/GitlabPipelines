@@ -5,7 +5,7 @@ build:
   script:
     - gradle buildPlugin
 
-deploy-jar::
+upload-jar:
   stage: deploy
   needs:
     - build
@@ -16,8 +16,6 @@ deploy-jar::
     - when: manual
   script:
     - gradle buildPlugin
-  artifacts:
-    paths:
-      - build/libs/gitlab-pipelines*
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/libs/gitlab-pipelines* "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/gitlab-pipelines-plugin/gitlab-pipelines.jar"'
 
 
