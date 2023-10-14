@@ -15,7 +15,7 @@ available at this repository.
        in the plugin.xml file.
     -->
     <plugin
-            id="fully.qualified.id.of.this.plugin"
+            id="org.rett.gitlab.pipelines"
             url="https://mycompany.example.com/my_repo/my_plugin.jar"
             version="major.minor.update">
         <!--
