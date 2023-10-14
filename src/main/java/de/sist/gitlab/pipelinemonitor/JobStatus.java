@@ -19,6 +19,7 @@ public class JobStatus {
         this.status = status;
         this.stage = stage;
         this.name = name;
+
         if (this.status.equals("failed")) {
             this.iconPath = "toolWindow/failed.png";
         } else if (this.status.equals("success")) {

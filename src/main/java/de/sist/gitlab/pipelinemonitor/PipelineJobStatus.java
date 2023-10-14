@@ -3,6 +3,7 @@ package de.sist.gitlab.pipelinemonitor;
 import com.google.common.base.Objects;
 import kotlinx.coroutines.Job;
 
+import javax.swing.*;
 import java.time.ZonedDateTime;
 import java.util.StringJoiner;
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class PipelineJobStatus {
     public final String pipelineLink;
     public String mergeRequestLink;
     public final String source;
+    public String author;
+    public Icon authorAvatar;
+    public String commitTitle;
     private String branchNameDisplay;
     private List<JobStatus> jobs;
 
@@ -38,6 +42,9 @@ public class PipelineJobStatus {
         this.jobs = new ArrayList<JobStatus>();
         for (int i = jobs.size() - 1; i >= 0; i--) {
             JobsTo jobTo = jobs.get(i);
+            this.author = jobTo.getUser().getName();
+            this.authorAvatar = jobTo.getUser().getAvatarIcon();
+            this.commitTitle = jobTo.getCommit().getTitle();
             this.jobs.add(new JobStatus(jobTo.getId(), jobTo.getStatus(), jobTo.getStage(), jobTo.getName()));
         }
     }

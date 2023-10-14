@@ -19,6 +19,10 @@ public class JobsTo {
     private String stage;
     @JsonProperty("name")
     private String name;
+    @JsonProperty("commit")
+    private CommitTo commit;
+    @JsonProperty("user")
+    private UserTo user;
 
     @JsonProperty("id")
     public Long getId() {
@@ -48,6 +52,16 @@ public class JobsTo {
     @JsonProperty("name")
     public void setName(String name) { this.name = name; }
 
+    @JsonProperty("commit")
+    public CommitTo getCommit() { return commit; }
+    @JsonProperty("commit")
+    public void setCommit(CommitTo commit) { this.commit = commit; }
+
+    @JsonProperty("user")
+    public UserTo getUser() { return user; }
+    @JsonProperty("user")
+    public void setUser(UserTo user) { this.user = user; }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", JobsTo.class.getSimpleName() + "[", "]")
@@ -55,6 +69,8 @@ public class JobsTo {
                 .add("status='" + status + "'")
                 .add("stage='" + stage + "'")
                 .add("name='" + name + "'")
+                .add("commit='" + commit + "'")
+                .add("user='" + user + "'")
                 .toString();
     }
 }

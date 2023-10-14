@@ -65,6 +65,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -150,9 +152,15 @@ public class GitlabToolWindow {
                     return getStatusCellRenderer();
                 }
                 if (column == 3) {
+                    return getAuthorCellRenderer();
+                }
+                if (column == 4) {
                     return getDateCellRenderer();
                 }
-                if (column == 4 || column == 5) {
+                if (column == 5) {
+                    return getCommitCellRenderer();
+                }
+                if (column == 6 || column == 7) {
                     return getLinkCellRenderer();
                 }
                 return cellRenderer;
@@ -539,26 +547,10 @@ public class GitlabToolWindow {
             for (Map.Entry<String, List<PipelineJobStatus>> entry : branchesToStatuses.entrySet()) {
                 logger.debug("Display Job Statuses: ", entry.getValue());
                 newRows.addAll(entry.getValue());
-                // Unnecessary?
-//                Optional<PipelineJobStatus> firstFinalStatus = entry.getValue().stream().filter(this::isFinalStatus).findFirst();
-//                if (firstFinalStatus.isPresent()) {
-//                    int indexOfLatestFinalStatus = entry.getValue().indexOf(firstFinalStatus.get());
-//                    final List<PipelineJobStatus> allUpToLatestFinalStatus = entry.getValue().subList(0, indexOfLatestFinalStatus + 1);
-//                    logger.debug("Found ", allUpToLatestFinalStatus.size(), " pipelines for branch ", entry.getKey(), " including latest with final status: ", allUpToLatestFinalStatus.get(indexOfLatestFinalStatus));
-//                    newRows.addAll(allUpToLatestFinalStatus);
-//                } else {
-//                    final PipelineJobStatus status = entry.getValue().get(0);
-//                    logger.debug("Found one entry for branch ", entry.getKey(), ": ", status);
-//                    newRows.add(status);
-//                }
             }
         }
         newRows.sort(Comparator.comparing(x -> ((PipelineJobStatus) x).creationTime).reversed());
         return newRows;
-    }
-
-    private boolean isFinalStatus(PipelineJobStatus status) {
-        return Stream.of("failed", "success").anyMatch(x -> x.equals(status.result));
     }
 
     private void sortTableByBranchName() {
@@ -606,12 +598,12 @@ public class GitlabToolWindow {
                     }
 
                     int selectedColumn = pipelineTable.columnAtPoint(e.getPoint());
-                    if (selectedColumn != 4 && selectedColumn != 5) {
+                    if (selectedColumn != 6 && selectedColumn != 7) {
                         return;
                     }
 
                     String url;
-                    if (selectedColumn == 4) {
+                    if (selectedColumn == 6) {
                         url = selectedPipelineStatus.getPipelineLink();
                     } else {
                         if (selectedPipelineStatus.mergeRequestLink != null) {
@@ -630,7 +622,7 @@ public class GitlabToolWindow {
             public void mouseMoved(MouseEvent e) {
                 int columnIndex = pipelineTable.columnAtPoint(e.getPoint());
                 int rowIndex = pipelineTable.rowAtPoint(e.getPoint());
-                if (columnIndex == 3 && rowIndex > -1 && rowIndex < tableModel.getRowCount()) {
+                if (columnIndex == 6 && rowIndex > -1 && rowIndex < tableModel.getRowCount()) {
                     pipelineTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 } else {
                     pipelineTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -673,7 +665,7 @@ public class GitlabToolWindow {
                         label.setFont(label.getFont().deriveFont(attributes));
                     }
                 }
-                if (column == 4 && PipelineViewerConfigApp.getInstance().getDisplayType() != PipelineViewerConfigApp.DisplayType.LINK) {
+                if (column == 6 && PipelineViewerConfigApp.getInstance().getDisplayType() != PipelineViewerConfigApp.DisplayType.LINK) {
                     label.setToolTipText(url);
                 }
                 return label;
@@ -768,6 +760,32 @@ public class GitlabToolWindow {
         };
     }
 
+    private TableCellRenderer getAuthorCellRenderer() {
+        return new TableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Pair authorInfo = (Pair)value;
+                JLabel label = new JLabel((String)authorInfo.first);
+                if (authorInfo.second != null) {
+                    label = new JBLabel((Icon)authorInfo.second);
+                    label.setPreferredSize(new Dimension(32, 32));
+                    label.setToolTipText((String)authorInfo.first);
+                }
+
+                return label;
+            }
+        };
+    }
+
+    private TableCellRenderer getCommitCellRenderer() {
+        return new TableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                return new JLabel((String)value);
+            }
+        };
+    }
+
     private static class PipelineTableModel extends AbstractTableModel {
 
         public List<PipelineJobStatus> rows = new ArrayList<>();
@@ -778,7 +796,14 @@ public class GitlabToolWindow {
                     List<JobStatus> result = x.getJobs();
                     return result;
                 }),
+                new TableRowDefinition("Author", x -> {
+                    Pair authorInfo = new Pair(x.author, x.authorAvatar);
+                    return authorInfo;
+                }),
                 new TableRowDefinition("Time", x -> x.creationTime),
+                new TableRowDefinition("Commit", x -> {
+                    return x.commitTitle;
+                }),
                 new TableRowDefinition("Pipeline", x -> x.pipelineLink),
                 new TableRowDefinition("MR", x -> x.mergeRequestLink)
         );
