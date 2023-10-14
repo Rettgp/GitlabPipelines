@@ -16,6 +16,7 @@ upload-jar:
     - when: manual
   script:
     - gradle buildPlugin
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file updatePlugins.xml "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/gitlab-pipelines-plugin/updatePlugins.xml"'
     - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file build/distributions/Gitlab-Pipelines* "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/gitlab-pipelines-plugin/gitlab-pipelines.zip"'
 
 
