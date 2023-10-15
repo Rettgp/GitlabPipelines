@@ -17,7 +17,7 @@ upload-plugin:
   script:
     - gradle buildPlugin
     - ls ./build/distributions/Gitlab-Pipelines-${CI_COMMIT_TAG}.zip
-    - 'curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file updatePlugins.xml "https://www.gitlab.com/api/v4/projects/51184525/packages/generic/gitlab-pipelines-plugin/updatePlugins.xml"'
-    - 'curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "./build/distributions/Gitlab-Pipelines-${CI_COMMIT_TAG}.zip" "https://www.gitlab.com/api/v4/projects/51184525/packages/generic/gitlab-pipelines-plugin/gitlab-pipelines.zip"'
+    - 'curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file updatePlugins.xml "https://www.gitlab.com/api/v4/projects/51183201/packages/generic/gitlab-pipelines-plugin/updatePlugins.xml"'
+    - 'curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "./build/distributions/Gitlab-Pipelines-${CI_COMMIT_TAG}.zip" "https://www.gitlab.com/api/v4/projects/51183201/packages/generic/gitlab-pipelines-plugin/gitlab-pipelines.zip"'
 
 
