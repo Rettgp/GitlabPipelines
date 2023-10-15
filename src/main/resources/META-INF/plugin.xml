@@ -2,6 +2,7 @@
     <id>org.rett.gitlab.pipelines</id>
     <name>GitLab Pipelines</name>
     <vendor email="garrphelps@gmail.com">Garrett Phelps</vendor>
+    <version>1.0.1</version>
 
     <description><![CDATA[
     Monitor your GitLab CI pipelines in IntelliJ<br/>
