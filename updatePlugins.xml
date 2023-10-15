@@ -16,7 +16,7 @@ available at this repository.
     -->
     <plugin
             id="org.rett.gitlab.pipelines"
-            url="https://gitlab.com/api/v4/projects/51184525/packages/generic/gitlab-pipelines-plugin/gitlab-pipelines.zip"
+            url="https://gitlab.com/api/v4/projects/51183201/packages/generic/gitlab-pipelines-plugin/1.0.1/gitlab-pipelines.zip"
             version="1.0.1">
         <!--
         The <idea-version> element (required) must match the same element
