@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.0.2]
+* Fixed unhandled job statuses
+
 ## [1.0.1]
 * Decreased queried pipelines to the latest 25
 * Changed jobs tooltip to be name of job, not the stage
