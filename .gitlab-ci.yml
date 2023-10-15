@@ -6,7 +6,7 @@ build:
     - gradle buildPlugin
 
 upload-plugin:
-  stage: upload
+  stage: deploy
   needs:
     - build
   rules:
