@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="6.1232138mm"
-   height="6.1232138mm"
-   viewBox="0 0 6.1232138 6.1232138"
+   width="8.4666557mm"
+   height="8.4666882mm"
+   viewBox="0 0 8.4666557 8.4666882"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.1 r15371"
@@ -29,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="8.5684689"
-     inkscape:cy="6.8000639"
+     inkscape:cx="8.5684683"
+     inkscape:cy="6.8000585"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -46,11 +46,13 @@
     <inkscape:grid
        type="xygrid"
        id="grid4500"
-       originx="-179.9261"
-       originy="-46.795812" />
+       originx="-179.92612"
+       originy="-46.795805" />
     <inkscape:grid
        type="xygrid"
-       id="grid5657" />
+       id="grid5657"
+       originx="-1.6933385e-007"
+       originy="-1.4197096e-006" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -68,20 +70,22 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-179.92611,-244.08097)">
+     transform="translate(-179.9261,-241.73749)">
     <g
-       id="g4504">
+       id="g4504"
+       transform="matrix(1.3999983,0,0,1.4000037,-72.023061,-100.02969)"
+       style="stroke-width:0.71428514">
       <circle
          r="2.9293153"
          cy="247.14258"
          cx="182.98772"
          id="path4496"
-         style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.26458332;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill" />
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.18898794;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill" />
       <path
          inkscape:connector-curvature="0"
          id="path4498"
          d="m 181.76875,245.93542 2.48637,2.48636"
-         style="fill:none;stroke:#000000;stroke-width:0.79374999;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:none;stroke:#000000;stroke-width:0.56696385;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
   </g>
 </svg>
