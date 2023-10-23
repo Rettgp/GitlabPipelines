@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.3]
+* Improve renderer by caching job statuses
+* Fix bug that would cause some jobs to not have a tooltip
+* Use svgs for job statuses in accordance to intellij standards
+
 ## [1.0.2]
 * Fixed unhandled job statuses
 
