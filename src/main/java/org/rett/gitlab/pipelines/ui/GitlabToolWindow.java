@@ -106,6 +106,7 @@ public class GitlabToolWindow {
     private final GitService gitService;
 
     private JCheckBox showForAllCheckbox;
+    private Map<PipelineJobStatus, Container> jobsCellCache = new HashMap();
     JPanel actionPanel;
 
 
@@ -232,7 +233,7 @@ public class GitlabToolWindow {
             tableScrollPane.setEnabled(enabled);
 
             if (!enabled) {
-                tableModel.rows.clear();
+                tableModel.clearRows();
                 tableModel.fireTableDataChanged();
             }
         });
@@ -318,10 +319,10 @@ public class GitlabToolWindow {
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
-        if (cell.rowIndex == -1 || cell.rowIndex > tableModel.rows.size()) {
+        if (cell.rowIndex == -1 || cell.rowIndex > tableModel.getRows().size()) {
             return null;
         }
-        return tableModel.rows.get(cell.rowIndex);
+        return tableModel.getRows().get(cell.rowIndex);
     }
 
     private SelectedCell getSelectedTableCell(Point pointClicked) {
@@ -392,7 +393,7 @@ public class GitlabToolWindow {
                         RowFilter<PipelineTableModel, Integer> filter = new RowFilter<>() {
                             @Override
                             public boolean include(Entry<? extends PipelineTableModel, ? extends Integer> entry) {
-                                return entry.getModel().rows.get(entry.getIdentifier()).getBranchNameDisplay().toLowerCase().contains(text.toLowerCase());
+                                return entry.getModel().getRows().get(entry.getIdentifier()).getBranchNameDisplay().toLowerCase().contains(text.toLowerCase());
                             }
                         };
                         tableSorter.setRowFilter(filter);
@@ -491,11 +492,12 @@ public class GitlabToolWindow {
         tableScrollPane.setEnabled(true);
         toggleShowForAllCheckboxVisibility();
 
-        tableModel.rows.clear();
-        tableModel.rows.addAll(getStatusesToShow());
-        logger.debug(String.format("Showing %d statuses for %d projects", tableModel.rows.size(), gitlabService.getPipelineInfos().size()));
+        jobsCellCache.clear();
+        tableModel.clearRows();
+        tableModel.setRows(getStatusesToShow());
+        logger.debug(String.format("Showing %d statuses for %d projects", tableModel.getRows().size(), gitlabService.getPipelineInfos().size()));
         final TableColumn column = pipelineTable.getColumn(pipelineTable.getColumnName(0));
-        final boolean multipleProjects = !tableModel.rows.isEmpty() && tableModel.rows.stream().map(x -> x.projectId).collect(Collectors.toSet()).size() == 1;
+        final boolean multipleProjects = !tableModel.getRows().isEmpty() && tableModel.getRows().stream().map(x -> x.projectId).collect(Collectors.toSet()).size() == 1;
         if (multipleProjects || !showForAllCheckbox.isSelected()) {
             column.setMinWidth(0);
             column.setMaxWidth(0);
@@ -514,6 +516,54 @@ public class GitlabToolWindow {
             sortTableByBranchName();
             initialLoad = false;
         }
+    }
+
+    private Container getPipelineStatusContainer(PipelineJobStatus pipeline) {
+        if (jobsCellCache.containsKey(pipeline)) {
+            return jobsCellCache.get(pipeline);
+        }
+
+        JPanel jobsPanel = new JPanel() {
+            @Override
+            public String getToolTipText(MouseEvent event) {
+                int offset = 5 + 15 + 5 + 32;
+                Component[] components = super.getComponents();
+                for(int i = 0; i < components.length; i+=2 ) {
+                    int stageIndex = (int)Math.floor(i / 2);
+                    int startX = stageIndex * offset;
+                    int endX = startX + 32;
+                    if (event.getX() >= startX && event.getX() <= endX) {
+                        JBLabel label = (JBLabel)components[i];
+                        return label.getToolTipText();
+                    }
+                }
+                return super.getToolTipText(event);
+            }
+        };
+        BoxLayout boxLayout = new BoxLayout(jobsPanel, BoxLayout.X_AXIS);
+        jobsPanel.setLayout(boxLayout);
+        List<JobStatus> jobs = pipeline.getJobs();
+        for (int i = 0; i < jobs.size(); i++) {
+            final String iconPath = jobs.get(i).iconPath;
+            final Icon statusIcon = IconLoader.getIcon(iconPath, GitlabToolWindow.class);
+            JBLabel label = new JBLabel(statusIcon);
+            label.setToolTipText(jobs.get(i).name + ": " + jobs.get(i).status);
+            label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            label.setAlignmentY(Component.CENTER_ALIGNMENT);
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            jobsPanel.add(label);
+            if (jobs.size() > 1 && i < jobs.size() - 1){
+                final Icon dividerIcon = IconLoader.getIcon("toolWindow/divider.svg", GitlabToolWindow.class);
+                final JBLabel divider = new JBLabel(dividerIcon);
+                label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                divider.setAlignmentY(Component.CENTER_ALIGNMENT);
+                divider.setAlignmentX(Component.CENTER_ALIGNMENT);
+                jobsPanel.add(divider);
+            }
+        }
+
+        jobsCellCache.put(pipeline, jobsPanel);
+        return jobsPanel;
     }
 
     /**
@@ -715,43 +765,8 @@ public class GitlabToolWindow {
         return new TableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JPanel jobsPanel = new JPanel() {
-                    @Override
-                    public String getToolTipText(MouseEvent event) {
-                        int offset = 5 + 10 + 5;
-                        Component[] components = super.getComponents();
-                        for(int i = 0; i < components.length; i+=2 ) {
-                            int stageIndex = (int)Math.floor(i / 2);
-                            int startX = stageIndex * (32 + offset) + 5;
-                            int endX = startX + 32;
-                            if (event.getX() >= startX && event.getX() <= endX) {
-                                JBLabel label = (JBLabel)components[i];
-                                return label.getToolTipText();
-                            }
-                        }
-                        return super.getToolTipText(event);
-                    }
-                };
-                BoxLayout boxLayout = new BoxLayout(jobsPanel, BoxLayout.X_AXIS);
-                jobsPanel.setLayout(boxLayout);
-                List<JobStatus> jobs = (List<JobStatus>)value;
-                for (int i = 0; i < jobs.size(); i++) {
-                    JBLabel label = new JBLabel(IconLoader.getIcon(jobs.get(i).iconPath, GitlabToolWindow.class));
-                    label.setToolTipText(jobs.get(i).name + ": " + jobs.get(i).status);
-                    label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                    label.setAlignmentY(Component.CENTER_ALIGNMENT);
-                    label.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    jobsPanel.add(label);
-                    if (jobs.size() > 1 && i < jobs.size() - 1){
-                        JBLabel divider = new JBLabel(IconLoader.getIcon("toolWindow/divider.png", GitlabToolWindow.class));
-                        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                        divider.setAlignmentY(Component.CENTER_ALIGNMENT);
-                        divider.setAlignmentX(Component.CENTER_ALIGNMENT);
-                        jobsPanel.add(divider);
-                    }
-                }
-
-                return jobsPanel;
+                PipelineJobStatus pipeline = (PipelineJobStatus)value;
+                return getPipelineStatusContainer(pipeline);
             }
         };
     }
@@ -783,14 +798,12 @@ public class GitlabToolWindow {
     }
 
     private static class PipelineTableModel extends AbstractTableModel {
-
-        public List<PipelineJobStatus> rows = new ArrayList<>();
+        private List<PipelineJobStatus> rows = new ArrayList<>();
         public List<TableRowDefinition> definitions = Arrays.asList(
                 new TableRowDefinition("Project", x -> x.projectId),
                 new TableRowDefinition("Branch", PipelineJobStatus::getBranchNameDisplay),
                 new TableRowDefinition("Status", x -> {
-                    List<JobStatus> result = x.getJobs();
-                    return result;
+                    return x;
                 }),
                 new TableRowDefinition("Author", x -> {
                     Pair authorInfo = new Pair(x.author, x.authorAvatar);
@@ -804,6 +817,18 @@ public class GitlabToolWindow {
                 new TableRowDefinition("MR", x -> x.mergeRequestLink)
         );
 
+        public List<PipelineJobStatus> getRows() {
+            return this.rows;
+        }
+
+        public void setRows(List<PipelineJobStatus> rows) {
+            this.rows = rows;
+        }
+
+        public void clearRows() {
+            this.rows.clear();
+        }
+
         @Override
         public int getRowCount() {
             return rows.size();
@@ -816,7 +841,7 @@ public class GitlabToolWindow {
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            PipelineJobStatus row = rows.get(rowIndex);
+            PipelineJobStatus row = this.rows.get(rowIndex);
             return definitions.get(columnIndex).tableModelRowFunction.apply(row);
         }
 
@@ -824,7 +849,6 @@ public class GitlabToolWindow {
         public String getColumnName(int columnIndex) {
             return definitions.get(columnIndex).title;
         }
-
     }
 
 

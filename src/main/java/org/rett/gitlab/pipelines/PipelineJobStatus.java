@@ -57,13 +57,13 @@ public class PipelineJobStatus {
             return false;
         }
         PipelineJobStatus that = (PipelineJobStatus) o;
-        return Objects.equal(branchName, that.branchName) &&
+        return Objects.equal(id, that.id) &&
+                Objects.equal(branchName, that.branchName) &&
                 Objects.equal(projectId, that.projectId) &&
                 Objects.equal(creationTime, that.creationTime) &&
                 Objects.equal(result, that.result) &&
                 Objects.equal(source, that.source) &&
-                Objects.equal(pipelineLink, that.pipelineLink)
-                ;
+                Objects.equal(pipelineLink, that.pipelineLink);
     }
 
     public Integer getId() {
