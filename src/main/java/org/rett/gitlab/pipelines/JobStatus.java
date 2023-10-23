@@ -19,21 +19,21 @@ public class JobStatus {
         this.name = name;
 
         if (this.status.equals("failed")) {
-            this.iconPath = "toolWindow/failed.png";
+            this.iconPath = "toolWindow/failed.svg";
         } else if (this.status.equals("success")) {
-            this.iconPath = "toolWindow/success.png";
+            this.iconPath = "toolWindow/success.svg";
         } else if (this.status.equals("running")) {
-            this.iconPath = "toolWindow/running.png";
+            this.iconPath = "toolWindow/running.svg";
         } else if (this.status.equals("canceled")) {
-            this.iconPath = "toolWindow/canceled.png";
+            this.iconPath = "toolWindow/canceled.svg";
         } else if (this.status.equals("created")) {
-            this.iconPath = "toolWindow/created.png";
+            this.iconPath = "toolWindow/created.svg";
         } else if (this.status.equals("pending")) {
-            this.iconPath = "toolWindow/pending.png";
+            this.iconPath = "toolWindow/pending.svg";
         } else if (this.status.equals("skipped")) {
-            this.iconPath = "toolWindow/skipped.png";
+            this.iconPath = "toolWindow/skipped.svg";
         } else {
-            this.iconPath = "toolWindow/unknown.png";
+            this.iconPath = "toolWindow/unknown.svg";
         }
     }
 
